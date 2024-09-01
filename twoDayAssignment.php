@@ -84,7 +84,7 @@ function uploadCharity(&$allCharities) {
                 $allCharities[] = $newChar;
                 echo "\n";
             } else {
-                echo "INVALID EMAIL! At charity: " . $charityName . "\n";
+                echo "Invalid email at charity: " . $charityName . "\n";
             }
         }
     } else {
@@ -95,35 +95,52 @@ function uploadCharity(&$allCharities) {
 function createCharity(&$allCharities) {
     echo "\n";
     $charityName = readline("Enter new charity name: ");
-    $charityEmail = readline("\nEnter new charity email: ");
 
-    if (preg_match("/^[^@]+@[^@]+\.[^@]+$/", $charityEmail) == 1) {
-        $newChar = new Charity($charityName, $charityEmail);
-        $allCharities[] = $newChar;
-        echo "\n";
-    } else {
-        echo "INVALID EMAIL! TRY AGAIN: \n";
-        createCharity($allCharities);
+    $validEmail = false;
+        while($validEmail == false) {
+            $charityEmail = readline("Enter new charity email: ");
+            if (preg_match("/^[^@]+@[^@]+\.[^@]+$/", $charityEmail) == 1) {
+                $newChar = new Charity($charityName, $charityEmail);
+                $allCharities[] = $newChar;
+                $validEmail = true;
+                 echo "\nCharity added successfuly\n";
+            }
+             else{
+                echo "Invalid email, ";
+             }
+        }
+   
     }
-}
 
 function editCharity(&$allCharities) {
+    viewCharities($allCharities);
     echo "\n";
     $whichCharity = readline("\nWhich charity to edit? ");
-    $charityName = readline("Enter new charity name: \n");
-    $charityEmail = readline("Enter new charity email: \n");
+    $charityName = readline("Enter new charity name: ");
 
-    if (preg_match("/^[^@]+@[^@]+\.[^@]+$/", $charityEmail) == 1) {
-        foreach ($allCharities as $charity) {
-            if ($charity->getId() == $whichCharity) {
-                $charity->editCharity($charityName, $charityEmail);
-                break;
+
+    $validEmail = false;
+        while($validEmail == false) {
+            $charityEmail = readline("Enter new charity email: ");
+            if (preg_match("/^[^@]+@[^@]+\.[^@]+$/", $charityEmail) == 1) {
+                $validEmail = true;
+
+                foreach ($allCharities as $charity) {
+                    if ($charity->getId() == $whichCharity) {
+                        $charity->editCharity($charityName, $charityEmail);
+                        echo "\nCharity edited successfuly.\n";
+                        break;
+                    }
+                }
+            } else {
+                echo "Invalid email, ";
             }
         }
-    } else {
-        echo "INVALID EMAIL! TRY AGAIN: \n";
-        createCharity($allCharities);
-    }
+
+
+
+    
+    
 }
 
 function createDonation(&$allCharities) {
