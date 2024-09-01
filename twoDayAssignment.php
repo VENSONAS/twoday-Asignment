@@ -128,7 +128,7 @@ function createCharity(&$allCharities) {
 function editCharity(&$allCharities) {
     viewCharities($allCharities);
     echo "\n";
-    $whichCharity = readline("\nWhich charity to edit? ");
+    $whichCharity = readline("Which charity to edit? ");
     $charityName = readline("Enter new charity name: ");
 
 
@@ -177,7 +177,7 @@ function createDonation(&$allCharities) {
         return;
     }
 
-    $donor = readline("\nEnter donor name: ");
+    $donor = readline("Enter donor name: ");
     $validDonation = false;
     while (!$validDonation) {
     $amountDonated = readline("Enter amount to donate: ");
