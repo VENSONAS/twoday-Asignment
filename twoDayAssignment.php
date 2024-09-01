@@ -1,10 +1,10 @@
 <?php 
 class Charity {
     private static $nextId = 1;
-    public $id;
-    public $name;
-    public $email;
-    public $donations;
+    private $id;
+    private $name;
+    private $email;
+    private $donations;
    
     function __construct($newName, $newEmail) {
         $this->id = self::$nextId++;
@@ -51,11 +51,11 @@ class Charity {
 
 class Donation {
     private static $nextId = 1;
-    public $id;
-    public $donorName;
-    public $amount;
-    public $charityId;
-    public $dateTime;
+    private $id;
+    private $donorName;
+    private $amount;
+    private $charityId;
+    private $dateTime;
 
     function __construct($newDonorName, $newAmount, $charId) {
         $this->id = self::$nextId++;
@@ -101,7 +101,7 @@ function uploadCharity(&$allCharities) {
         echo "\nThe file does not exist.\n";
     }
     if($allValidEmails == true) {
-        echo "\nEmail(s) uploaded successfuly.\n";
+        echo "\nCharity(ies) uploaded successfuly.\n";
     }
 }
 
@@ -161,7 +161,7 @@ function createDonation(&$allCharities) {
     viewCharities($allCharities);
     echo "\n";
     
-    $whichCharity = readline("\nWhich charity to add donation to? ");
+    $whichCharity = readline("Which charity to add donation to? ");
     
 
     $charityFound = false;
