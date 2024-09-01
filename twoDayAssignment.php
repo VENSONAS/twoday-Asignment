@@ -71,6 +71,7 @@ class Donation {
 $allCharities = [];
 
 function uploadCharity(&$allCharities) {
+    $allValidEmails = false;
     $inputFile = readline("Enter name(without '.csv' extention) of wanted CSV file: ");
     if (file_exists($inputFile . ".csv")) {
         $file = fopen($inputFile . ".csv", "r");
@@ -82,13 +83,20 @@ function uploadCharity(&$allCharities) {
             if (preg_match("/^[^@]+@[^@]+\.[^@]+$/", $charityEmail) == 1) {
                 $newChar = new Charity($charityName, $charityEmail);
                 $allCharities[] = $newChar;
+                $allValidEmails = true;
+
                 echo "\n";
             } else {
-                echo "Invalid email at charity: " . $charityName . "\n";
+                echo "Invalid email at charity: '" . $charityName . "'. Charity not uploaded.\n";
+                
             }
         }
+
     } else {
         echo "\nThe file does not exist.\n";
+    }
+    if($allValidEmails == true) {
+        echo "\nEmail(s) uploaded successfuly.\n";
     }
 }
 
@@ -165,6 +173,8 @@ function createDonation(&$allCharities) {
     }
 
     $donor = readline("\nEnter donor name: ");
+    $validDonation = false;
+    while (!$validDonation) {
     $amountDonated = readline("\nEnter amount to donate: ");
     echo "\n";
 
@@ -175,12 +185,15 @@ function createDonation(&$allCharities) {
             if ($charity->getId() == $whichCharity) {
                 $charity->setDonation($newDonation);
                 echo "Donation added successfully.\n";
+                $validDonation = true;
                 break;
+                
             }
         }
     } else {
         echo "Please enter a valid number for the donation amount.\n";
     }
+}
 }
 
 function viewCharities($allCharities) {
@@ -211,9 +224,10 @@ function option(&$allCharities) {
      4: Delete a charity \n
      5: Add a donation \n
      6: Upload charity file \n
-     0: END PROGRAM \n";
-
+     0: END PROGRAM \n
+     Enter your option: ";
     $answer = readline();
+    
 
     switch ($answer) {
         case 1:
