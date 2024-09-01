@@ -36,9 +36,14 @@ class Charity {
         echo "Name: " . $this->name . "\n";
         echo "Email: " . $this->email . "\n";
         echo "Donations:\n";
+        if(count($this->getDonation())==0) {
+            echo "    No donations available.\n";
+        }
+        else {
         foreach($this->donations as $donation) {
             $donation->getDonationInfo();
         }
+    }
         
         
     }
@@ -175,7 +180,7 @@ function createDonation(&$allCharities) {
     $donor = readline("\nEnter donor name: ");
     $validDonation = false;
     while (!$validDonation) {
-    $amountDonated = readline("\nEnter amount to donate: ");
+    $amountDonated = readline("Enter amount to donate: ");
     echo "\n";
 
     if (is_numeric($amountDonated)) {
@@ -197,13 +202,16 @@ function createDonation(&$allCharities) {
 }
 
 function viewCharities($allCharities) {
+    if (count($allCharities)==0) {
+        echo "\nNo charities available.\n";
+    }
     foreach($allCharities as $charity){
     echo $charity->getCharityInfo() . "\n";
     }
 }
 
 function deleteCharity(&$allCharities) {
-    $whichCharity = readline("\nSelect which charity to delete (enter ID): ");
+    $whichCharity = readline("Select which charity to delete (enter ID): ");
     
     foreach ($allCharities as $index => $charity) {
         if ($charity->getId() == $whichCharity) {
